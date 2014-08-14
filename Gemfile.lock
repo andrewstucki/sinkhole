@@ -1,0 +1,56 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
+    coderay (1.1.0)
+    diff-lcs (1.2.5)
+    ffi (1.9.3-java)
+    hooks (0.4.0)
+      uber (~> 0.0.4)
+    metaclass (0.0.4)
+    method_source (0.8.2)
+    mocha (1.1.0)
+      metaclass (~> 0.0.1)
+    nio4r (1.0.0)
+    nio4r (1.0.0-java)
+    pry (0.10.0)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry (0.10.0-java)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+      spoon (~> 0.0)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.3)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
+    rspec-mocks (3.0.3)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.3)
+    slop (3.6.0)
+    spoon (0.0.4)
+      ffi
+    timers (1.1.0)
+    uber (0.0.8)
+
+PLATFORMS
+  java
+  ruby
+
+DEPENDENCIES
+  celluloid-io
+  hooks
+  mocha
+  pry
+  rspec
