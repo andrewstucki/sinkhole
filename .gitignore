@@ -1,4 +1,7 @@
 .ruby-version
 .ruby-gemset
-server.*
+server.csr
+server.key
+server.crt
 coverage
+*.gem

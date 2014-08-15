@@ -1,4 +1,4 @@
-$:.unshift File.expand_path('../', __FILE__)
+require 'sinkhole/version'
 
 module Sinkhole
   require 'sinkhole/server'

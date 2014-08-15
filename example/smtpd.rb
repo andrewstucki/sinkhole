@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/sinkhole'
+$:.unshift File.join(File.expand_path(File.join(__FILE__,'..','..')), 'lib')
+
+require 'sinkhole'
 
 class Server < Sinkhole::Server
   callback :auth, :check_auth
