@@ -6,6 +6,7 @@ gem 'hooks'
 group :development, :test do
   gem 'pry'
   gem 'rspec'
+  gem 'simplecov'
 end
 
 group :test do

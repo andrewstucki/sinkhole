@@ -18,6 +18,21 @@ describe Sinkhole::Connection do
 
   subject { Sinkhole::Connection.new(socket, server)}
 
+  it "closes the socket when executing close" do
+    socket.expects(:close)
+    subject.perform_response_action(:quit)
+  end
+
+  it "starts tls when requested to do so" do
+    socket.expects(:accept)
+    subject.perform_response_action(:starttls)
+  end
+
+  it "resets the databuffer" do
+    subject.reset_databuffer
+    expect(subject.databuffer).to eq([])
+  end
+
   context "initialization" do
     it "gets the connected client's address" do
       expect(subject.peer).to eq('127.0.0.1')

@@ -21,6 +21,13 @@ class FakeCommandArgs < FakeCommand
 end
 
 describe Sinkhole::Commands::Command do
+  it "raises a CommandNotImplemented error on do_process" do
+    expect do
+      cmd = Sinkhole::Commands::Command.new(nil, nil)
+      cmd.process
+    end.to raise_error(Sinkhole::Errors::CommandNotImplemented)
+  end
+
   context "the syntactic sugar class commands" do
     context "when ensuring a given state" do
       it "raises a BadSequence error when the connection is not in the given state" do

@@ -4,6 +4,13 @@ require 'sinkhole/commands/auth'
 
 class Sinkhole::Commands::Auth
   class Foo
+    def self.state
+      :foo
+    end
+
+    def self.prompt
+      "foo"
+    end
   end
 end
 
@@ -12,47 +19,53 @@ describe Sinkhole::Commands::Auth do
   it_ensures_not_states(:auth_plain, :auth_login, :auth)
   it_ensures_arguments_present
 
-  subject do
+  let(:state) do
+    mock()
+  end
+
+  let(:connection) do
     connection = mock()
     connection.stubs(:state).returns([:ehlo])
-    Sinkhole::Commands.new(["FOO randomstringhere"], connection)
+    connection
+  end
+
+  before do
+    connection.stubs(:state).returns(state)
   end
 
   context "when processing" do
     context "when determining the auth scheme" do
-      it "throws a CommandParameterNotImplemented error when there is an invalid auth type"
-      it "gets the auth scheme used by name"
+      it "throws a CommandParameterNotImplemented error when there is an invalid auth type" do
+        cmd = Sinkhole::Commands::Auth.new(["BAR"], connection)
+        expect do
+          cmd.do_process
+        end.to raise_error(Sinkhole::Errors::CommandParameterNotImplemented)
+      end
+
+      it "gets the auth scheme used by name" do
+        state.expects(:<<).with(:foo)
+        Sinkhole::Responses::AuthIncomplete.expects(:new).with("foo")
+        cmd = Sinkhole::Commands::Auth.new(["FOO"], connection)
+        cmd.do_process
+      end
     end
 
     context "when checking credentials" do
-      it "returns an AuthIncomplete response when no credentials are provided"
-      it "throws an InvalidAuth error when the credentials are invalid"
-      it "goes into an authenticated state when the credentials are valid"
+      it "throws an InvalidAuth error when the credentials are invalid" do
+        Sinkhole::Commands::Auth::Foo.expects(:check_credentials).returns(false)
+        cmd = Sinkhole::Commands::Auth.new(["FOO", "randomstringhere"], connection)
+        expect do
+          cmd.do_process
+        end.to raise_error(Sinkhole::Errors::InvalidAuth)
+      end
+
+      it "goes into an authenticated state when the credentials are valid" do
+        state.expects(:<<).with(:auth)
+        Sinkhole::Commands::Auth::Foo.expects(:check_credentials).returns(true)
+        Sinkhole::Responses::AuthenticationValidated.expects(:new)
+        cmd = Sinkhole::Commands::Auth.new(["FOO", "randomstringhere"], connection)
+        cmd.do_process
+      end
     end
   end
-  # def do_process
-  #   auth_scheme, credentials = get_auth_scheme
-  #   if credentials.nil?
-  #     @connection.state << auth_scheme.state
-  #     return Responses::AuthIncomplete.new(auth_scheme.prompt)
-  #   end
-  #   if auth_scheme.check_credentials(@connection, credentials)
-  #     @connection.state << :auth
-  #     return Responses::AuthenticationValidated.new("authentication ok")
-  #   else
-  #     raise Errors::InvalidAuth.new(credentials, "invalid authentication")
-  #   end
-  # end
-  #
-  # private
-  #
-  # def get_auth_scheme
-  #   begin
-  #     auth_klass = self.class.const_get(@args[0].downcase.capitalize)
-  #     creds = @args[1..-1] if @args.length > 1
-  #     [auth_klass, creds]
-  #   rescue NameError
-  #     raise Errors::CommandParameterNotImplemented.new(@args, "auth mechanism not available")
-  #   end
-  # end
 end

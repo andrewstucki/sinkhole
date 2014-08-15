@@ -4,7 +4,7 @@ module Sinkhole
       ensure_state :starttls
       ensure_state :auth
       ensure_no_state :mail, "MAIL already given"
-      ensure_args "MAIL requires from value"
+      ensure_args "MAIL requires arguments"
 
       def do_process
         from = parse_args
