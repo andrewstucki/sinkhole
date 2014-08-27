@@ -1,4 +1,4 @@
-# Sinkhole
+# Sinkhole :rabbit:
 
 Sinkhole is a simple smtp library with hooks.
 
