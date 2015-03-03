@@ -7,6 +7,9 @@ require 'securerandom'
 
 module Sinkhole
   class Connection
+
+    class SocketClosed < Exception; end
+
     attr_accessor :state, :databuffer, :username
     attr_reader :peer, :domain, :linebuffer, :server
 
@@ -25,8 +28,12 @@ module Sinkhole
 
       send_response Responses::ServiceReady.new("#{@domain} ESMTP")
 
-      while data = readpartial(4096) do
-        receive_data data
+      begin
+        while data = readpartial(4096) do
+          receive_data data
+        end
+      rescue SocketClosed
+        @server.logger("Connection closed")
       end
     end
 
@@ -127,6 +134,7 @@ module Sinkhole
 
     def close
       @socket.close
+      raise SocketClosed
     end
 
     def start_tls

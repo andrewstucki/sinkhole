@@ -21,7 +21,7 @@ describe Sinkhole::Connection do
 
   it "closes the socket when executing close" do
     socket.expects(:close)
-    subject.perform_response_action(:quit)
+    expect { subject.perform_response_action(:quit) }.to raise_exception Sinkhole::Connection::SocketClosed
   end
 
   it "starts tls when requested to do so" do
