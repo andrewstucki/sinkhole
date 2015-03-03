@@ -13,7 +13,7 @@ module Sinkhole
 
     @@callbacks = {}
 
-    def self.start!(host, port, key, cert)
+    def self.start!(host, port, key = nil, cert = nil)
       supervisor = self.supervise(host, port, key, cert)
       trap("INT") { supervisor.terminate; exit }
 
