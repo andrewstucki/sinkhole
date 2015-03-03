@@ -23,5 +23,11 @@ module Celluloid
       alias_method :close_without_patch, :close
       alias_method :close, :close_with_patch
     end
+
+    class TCPSocket
+      def close
+        @socket.io.shutdown
+      end
+    end
   end
 end

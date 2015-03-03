@@ -1,6 +1,8 @@
 require 'celluloid/io'
 require 'sinkhole/connection'
 
+require 'ext/patches/celluloid_io_ssl_socket'
+
 module Sinkhole
   class Server
     include ::Celluloid::IO
@@ -35,7 +37,6 @@ module Sinkhole
       server.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
       @using_ssl = !(key.nil? || cert.nil?)
       if @using_ssl
-        require 'ext/patches/celluloid_io_ssl_socket'
         ctx = OpenSSL::SSL::SSLContext.new
         ctx.cert = OpenSSL::X509::Certificate.new File.open(cert)
         ctx.key = OpenSSL::PKey::RSA.new File.open(key)

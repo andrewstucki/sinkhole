@@ -13,7 +13,6 @@ module Sinkhole
     def initialize(socket, server)
       @id = ::SecureRandom.hex(8)
       @socket = socket
-      @socket.accept unless server.using_ssl
       @server = server
       @domain = Socket.gethostname
       _, _, @peer = @socket.peeraddr
