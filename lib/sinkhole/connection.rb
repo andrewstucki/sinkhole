@@ -33,7 +33,7 @@ module Sinkhole
           receive_data data
         end
       rescue SocketClosed
-        @server.logger("Connection closed")
+        @server.logger.debug "Connection closed"
       end
     end
 
