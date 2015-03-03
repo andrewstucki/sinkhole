@@ -26,7 +26,7 @@ module Celluloid
 
     class TCPSocket
       def close
-        @socket.io.shutdown
+        @socket.shutdown unless @socket.closed?
       end
     end
   end
