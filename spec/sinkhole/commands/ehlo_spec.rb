@@ -9,6 +9,9 @@ describe Sinkhole::Commands::Ehlo do
 
   let(:connection) do
     connection = mock()
+    server = mock()
+    server.stubs(:using_ssl).returns(true)
+    connection.stubs(:server).returns(server)
     connection.stubs(:domain).returns("Fake")
     connection.stubs(:peer).returns("127.0.0.1")
     connection

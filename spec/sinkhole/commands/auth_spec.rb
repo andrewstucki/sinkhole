@@ -15,7 +15,6 @@ class Sinkhole::Commands::Auth
 end
 
 describe Sinkhole::Commands::Auth do
-  it_ensures_states(:starttls)
   it_ensures_not_states(:auth_plain, :auth_login, :auth)
   it_ensures_arguments_present
 

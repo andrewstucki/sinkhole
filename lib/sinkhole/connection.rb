@@ -8,7 +8,7 @@ require 'securerandom'
 module Sinkhole
   class Connection
     attr_accessor :state, :databuffer, :username
-    attr_reader :peer, :domain, :linebuffer
+    attr_reader :peer, :domain, :linebuffer, :server
 
     def initialize(socket, server)
       @id = ::SecureRandom.hex(8)
@@ -78,9 +78,13 @@ module Sinkhole
         command, *args = line.split
         return if command.nil?
         begin
-          cmd_klass = Commands.const_get(command.downcase.capitalize)
-          cmd = cmd_klass.new(args, self)
-          response = cmd.process
+          if !@server.using_ssl && command.downcase == "starttls"
+            response = Errors::CommandNotImplemented.new("starttls", "Not implemented")
+          else
+            cmd_klass = Commands.const_get(command.downcase.capitalize)
+            cmd = cmd_klass.new(args, self)
+            response = cmd.process
+          end
         rescue NameError => e
           response = Errors::CommandNotRecognized.new(command, "Unrecognized command")
         rescue Errors::SmtpError => e

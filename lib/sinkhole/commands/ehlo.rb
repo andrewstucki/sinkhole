@@ -8,7 +8,7 @@ module Sinkhole
         response << Responses::ActionCompleted.new("#{@connection.domain} at your service, [#{@connection.peer}]", separator: "-")
         response << Responses::ActionCompleted.new("SIZE 35882577", separator: "-")
         response << Responses::ActionCompleted.new("8BITMIME", separator: "-")
-        response << Responses::ActionCompleted.new("STARTTLS", separator: "-")
+        response << Responses::ActionCompleted.new("STARTTLS", separator: "-") if @connection.server.using_ssl
         response << Responses::ActionCompleted.new("AUTH LOGIN PLAIN", separator: "-")
         # response << Responses::ActionCompleted.new("ENHANCEDSTATUSCODES", separator: "-")
         # response << Responses::ActionCompleted.new("PIPELINING", separator: "-")

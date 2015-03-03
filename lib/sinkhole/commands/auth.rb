@@ -5,7 +5,6 @@ require 'sinkhole/commands/auth/plain'
 module Sinkhole
   module Commands
     class Auth < Command
-      ensure_state :starttls
       ensure_no_state :auth, "AUTH already issued"
       ensure_no_state :auth_plain, "AUTH already issued"
       ensure_no_state :auth_login, "AUTH already issued"

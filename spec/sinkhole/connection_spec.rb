@@ -13,6 +13,7 @@ describe Sinkhole::Connection do
   let(:server) do
     server = mock()
     server.stubs(:callbacks).returns({random: :random_callback})
+    server.stubs(:using_ssl).returns(true)
     server
   end
 

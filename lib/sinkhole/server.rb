@@ -1,13 +1,11 @@
 require 'celluloid/io'
 require 'sinkhole/connection'
 
-require 'ext/patches/celluloid_io_ssl_socket'
-
 module Sinkhole
   class Server
     include ::Celluloid::IO
 
-    attr_reader :logger
+    attr_reader :logger, :using_ssl
 
     VALID_CALLBACKS = [ :auth, :mail, :rcpt, :data_chunk, :vrfy, :message, :rset ]
 
@@ -32,15 +30,21 @@ module Sinkhole
       @@callbacks
     end
 
-    def initialize(host, port, key, cert)
-      ctx = OpenSSL::SSL::SSLContext.new
-      ctx.cert = OpenSSL::X509::Certificate.new File.open(cert)
-      ctx.key = OpenSSL::PKey::RSA.new File.open(key)
-      ctx.ssl_version = :SSLv23
+    def initialize(host, port, key = nil, cert = nil)
       server = TCPServer.new(host, port)
       server.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
-      @server = SSLServer.new(server, ctx)
-      @server.start_immediately = false
+      @using_ssl = !(key.nil? || cert.nil?)
+      if @using_ssl
+        require 'ext/patches/celluloid_io_ssl_socket'
+        ctx = OpenSSL::SSL::SSLContext.new
+        ctx.cert = OpenSSL::X509::Certificate.new File.open(cert)
+        ctx.key = OpenSSL::PKey::RSA.new File.open(key)
+        ctx.ssl_version = :SSLv23
+        @server = SSLServer.new(server, ctx)
+        @server.start_immediately = false
+      else
+        @server = server
+      end
       @logger = Celluloid.logger
       async.run
     end
