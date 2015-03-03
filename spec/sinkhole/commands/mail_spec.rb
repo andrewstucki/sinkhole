@@ -3,6 +3,7 @@ require 'sinkhole/commands/command'
 require 'sinkhole/commands/mail'
 
 describe Sinkhole::Commands::Mail do
+  it_ensures_states(:ehlo)
   it_ensures_not_states(:mail)
   it_ensures_arguments_present
 

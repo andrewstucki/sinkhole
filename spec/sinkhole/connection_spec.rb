@@ -45,7 +45,7 @@ describe Sinkhole::Connection do
 
   context "calling a server callback" do
     it "calls the callback if it exists" do
-      server.expects(:random_callback).with("here", "are", "some", "args").returns(true)
+      server.expects(:random_callback).with("here", "are", "some", "args", regexp_matches(/[a-z0-9]{8}/)).returns(true)
       expect(subject.callback(:random, "here", "are", "some", "args")).to equal(true)
     end
 

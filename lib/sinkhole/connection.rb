@@ -3,6 +3,7 @@ require 'sinkhole/errors'
 require 'sinkhole/commands'
 
 require 'socket'
+require 'securerandom'
 
 module Sinkhole
   class Connection
@@ -10,6 +11,7 @@ module Sinkhole
     attr_reader :peer, :domain, :linebuffer
 
     def initialize(socket, server)
+      @id = ::SecureRandom.hex(8)
       @socket = socket
       @server = server
       @domain = Socket.gethostname
@@ -30,6 +32,7 @@ module Sinkhole
 
     def callback(name, *args)
       if @server.callbacks[name]
+        args << @id
         @server.send(@server.callbacks[name], *args)
       else
         nil
