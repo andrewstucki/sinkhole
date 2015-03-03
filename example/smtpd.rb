@@ -2,6 +2,7 @@
 
 $:.unshift File.join(File.expand_path(File.join(__FILE__,'..','..')), 'lib')
 
+require 'bundler/setup'
 require 'sinkhole'
 
 class Server < Sinkhole::Server
@@ -46,4 +47,4 @@ end
 keyfile = File.join(File.expand_path('../..', __FILE__), "server.key")
 certfile = File.join(File.expand_path('../..', __FILE__), "server.crt")
 
-Server.start! '0.0.0.0', 587, keyfile, certfile
+Server.start! '127.0.0.1', 5870, keyfile, certfile

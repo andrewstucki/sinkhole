@@ -3,7 +3,7 @@ require 'sinkhole/commands/command'
 require 'sinkhole/commands/rcpt'
 
 describe Sinkhole::Commands::Rcpt do
-  it_ensures_states(:starttls, :auth, :mail)
+  it_ensures_states(:mail)
   it_ensures_arguments_present
 
   let(:state) do
@@ -74,6 +74,5 @@ describe Sinkhole::Commands::Rcpt do
         end.to raise_error(Sinkhole::Errors::CommandSyntax)
       end
     end
-
   end
 end

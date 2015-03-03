@@ -1,8 +1,6 @@
 module Sinkhole
   module Commands
     class Data < Command
-      ensure_state :starttls
-      ensure_state :auth
       ensure_state :mail
       ensure_state :rcpt
       ensure_no_args

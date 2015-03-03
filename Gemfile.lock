@@ -2,21 +2,23 @@ PATH
   remote: .
   specs:
     sinkhole (0.0.1)
-      celluloid-io (= 0.15.0)
+      celluloid-io (= 0.16.2)
       hooks (= 0.4.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    celluloid (0.15.2)
-      timers (~> 1.1.0)
-    celluloid-io (0.15.0)
-      celluloid (>= 0.15.0)
-      nio4r (>= 0.5.0)
+    celluloid (0.16.0)
+      timers (~> 4.0.0)
+    celluloid-io (0.16.2)
+      celluloid (>= 0.16.0)
+      nio4r (>= 1.1.0)
     coderay (1.1.0)
     diff-lcs (1.2.5)
     docile (1.1.5)
     ffi (1.9.3-java)
+    hitimes (1.2.2)
+    hitimes (1.2.2-java)
     hooks (0.4.0)
       uber (~> 0.0.4)
     metaclass (0.0.4)
@@ -24,7 +26,8 @@ GEM
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.10.1)
-    nio4r (1.0.0)
+    nio4r (1.1.0)
+    nio4r (1.1.0-java)
     pry (0.10.0)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -55,8 +58,9 @@ GEM
     slop (3.6.0)
     spoon (0.0.4)
       ffi
-    timers (1.1.0)
-    uber (0.0.8)
+    timers (4.0.1)
+      hitimes
+    uber (0.0.13)
 
 PLATFORMS
   java

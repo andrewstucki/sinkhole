@@ -1,8 +1,6 @@
 module Sinkhole
   module Commands
     class Rcpt < Command
-      ensure_state :starttls
-      ensure_state :auth
       ensure_state :mail
       ensure_args "RCPT requires a specified recipient"
 

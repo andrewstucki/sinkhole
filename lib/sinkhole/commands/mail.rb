@@ -1,8 +1,6 @@
 module Sinkhole
   module Commands
     class Mail < Command
-      ensure_state :starttls
-      ensure_state :auth
       ensure_no_state :mail, "MAIL already given"
       ensure_args "MAIL requires arguments"
 
