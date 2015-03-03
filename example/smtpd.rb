@@ -14,31 +14,31 @@ class Server < Sinkhole::Server
   callback :rset, :dump_auth
   callback :vrfy, :search_address
 
-  def check_auth(user, pass)
+  def check_auth(user, pass, id)
     true
   end
 
-  def permission_to_mail_from?(address)
+  def permission_to_mail_from?(address, id)
     true
   end
 
-  def permission_to_mail_to?(user)
+  def permission_to_mail_to?(user, id)
     true
   end
 
-  def stash_chunk(chunk)
+  def stash_chunk(chunk, id)
     @logger.debug chunk.join("\n")
   end
 
-  def valid_message?
+  def valid_message?(id)
     true
   end
 
-  def dump_auth
+  def dump_auth(id)
     # puts "dumping auth"
   end
 
-  def search_address(address)
+  def search_address(address, id)
     # vrfy returns local-part@domain
     address
   end
