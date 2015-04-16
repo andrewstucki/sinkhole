@@ -14,31 +14,31 @@ class SMTPHandler < Sinkhole::Handler
   callback :rset, :dump_auth
   callback :vrfy, :search_address
 
-  def check_auth(user, pass, id)
+  def check_auth(user, pass)
     true
   end
 
-  def permission_to_mail_from?(address, id)
+  def permission_to_mail_from?(address)
     true
   end
 
-  def permission_to_mail_to?(user, id)
+  def permission_to_mail_to?(user)
     true
   end
 
-  def stash_chunk(chunk, id)
+  def stash_chunk(chunk)
     @logger.debug chunk.join("\n")
   end
 
-  def valid_message?(id)
+  def valid_message?
     true
   end
 
-  def dump_auth(id)
+  def dump_auth
     # puts "dumping auth"
   end
 
-  def search_address(address, id)
+  def search_address(address)
     # vrfy returns local-part@domain
     address
   end
