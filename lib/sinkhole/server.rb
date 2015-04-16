@@ -4,10 +4,15 @@ require 'sinkhole/connection'
 require 'ext/patches/celluloid_io_ssl_socket'
 
 module Sinkhole
+
+  def self.logger
+    Celluloid.logger
+  end
+
   class Server
     include ::Celluloid::IO
 
-    attr_reader :logger, :using_ssl
+    attr_reader :using_ssl
 
     finalizer :finalize
 
@@ -35,7 +40,6 @@ module Sinkhole
       else
         @server = server
       end
-      @logger = Celluloid.logger
       async.run
     end
 

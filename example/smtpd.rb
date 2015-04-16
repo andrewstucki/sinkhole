@@ -27,7 +27,7 @@ class SMTPHandler < Sinkhole::Handler
   end
 
   def stash_chunk(chunk)
-    @logger.debug chunk.join("\n")
+    Sinkhole.logger.debug chunk.join("\n")
   end
 
   def valid_message?
