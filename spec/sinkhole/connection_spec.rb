@@ -12,12 +12,17 @@ describe Sinkhole::Connection do
 
   let(:server) do
     server = mock()
-    server.stubs(:callbacks).returns({random: :random_callback})
     server.stubs(:using_ssl).returns(true)
     server
   end
 
-  subject { Sinkhole::Connection.new(socket, server)}
+  let(:handler) do
+    handler = mock()
+    handler.stubs(:callbacks).returns({random: :random_callback})
+    handler
+  end
+
+  subject { Sinkhole::Connection.new(socket, handler, server)}
 
   it "closes the socket when executing close" do
     socket.expects(:close)
@@ -46,7 +51,7 @@ describe Sinkhole::Connection do
 
   context "calling a server callback" do
     it "calls the callback if it exists" do
-      server.expects(:random_callback).with("here", "are", "some", "args", regexp_matches(/[a-z0-9]{8}/)).returns(true)
+      handler.expects(:random_callback).with("here", "are", "some", "args", regexp_matches(/[a-z0-9]{8}/)).returns(true)
       expect(subject.callback(:random, "here", "are", "some", "args")).to equal(true)
     end
 

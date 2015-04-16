@@ -5,7 +5,7 @@ $:.unshift File.join(File.expand_path(File.join(__FILE__,'..','..')), 'lib')
 require 'bundler/setup'
 require 'sinkhole'
 
-class Server < Sinkhole::Server
+class SMTPHandler < Sinkhole::Handler
   callback :auth, :check_auth
   callback :mail, :permission_to_mail_from?
   callback :rcpt, :permission_to_mail_to?
@@ -44,7 +44,4 @@ class Server < Sinkhole::Server
   end
 end
 
-keyfile = File.join(File.expand_path('../..', __FILE__), "server.key")
-certfile = File.join(File.expand_path('../..', __FILE__), "server.crt")
-
-Server.start! '127.0.0.1', 5870, keyfile, certfile
+Sinkhole::Server.start! '127.0.0.1', 5870, SMTPHandler

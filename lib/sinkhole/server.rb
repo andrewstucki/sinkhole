@@ -9,11 +9,7 @@ module Sinkhole
 
     attr_reader :logger, :using_ssl
 
-    VALID_CALLBACKS = [ :auth, :mail, :rcpt, :data_chunk, :vrfy, :message, :rset ]
-
     finalizer :finalize
-
-    @@callbacks = {}
 
     def self.start!(host, port, key = nil, cert = nil)
       supervisor = self.supervise(host, port, key, cert)
@@ -24,17 +20,10 @@ module Sinkhole
       end
     end
 
-    def self.callback(name, sym)
-      @@callbacks[name] = sym
-    end
-
-    def callbacks
-      @@callbacks
-    end
-
-    def initialize(host, port, key = nil, cert = nil)
+    def initialize(host, port, handler, key = nil, cert = nil)
       server = TCPServer.new(host, port)
       server.setsockopt(Socket::IPPROTO_TCP, Socket::TCP_NODELAY, 1)
+      @handler = handler
       @using_ssl = !(key.nil? || cert.nil?)
       if @using_ssl
         ctx = OpenSSL::SSL::SSLContext.new
@@ -59,7 +48,7 @@ module Sinkhole
     end
 
     def handle_connection(socket)
-      connection = Connection.new(socket, self)
+      connection = Connection.new(socket, @handler.new, self)
     rescue EOFError
       socket.close
     end

@@ -13,9 +13,10 @@ module Sinkhole
     attr_accessor :state, :databuffer, :username
     attr_reader :peer, :domain, :linebuffer, :server
 
-    def initialize(socket, server)
+    def initialize(socket, handler, server)
       @id = ::SecureRandom.hex(8)
       @socket = socket
+      @handler = handler
       @server = server
       @domain = Socket.gethostname
       _, _, @peer = @socket.peeraddr
@@ -38,9 +39,9 @@ module Sinkhole
     end
 
     def callback(name, *args)
-      if @server.callbacks[name]
+      if @handler.callbacks[name]
         args << @id
-        @server.send(@server.callbacks[name], *args)
+        @handler.send(@handler.callbacks[name], *args)
       else
         nil
       end
